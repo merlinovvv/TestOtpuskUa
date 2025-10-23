@@ -1,0 +1,22 @@
+@use "@/styles/variables" as *;
+@use "sass:color";
+
+.button {
+  padding: $control-padding-y $control-padding-x;
+  border: none;
+  border-radius: $border-radius-sm;
+  background-color: $primary;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all $transition;
+
+  &:hover {
+    background: color.adjust($primary, $lightness: -5%);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}

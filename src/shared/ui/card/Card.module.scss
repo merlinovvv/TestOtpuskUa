@@ -1,0 +1,16 @@
+@use "@/styles/variables" as *;
+
+.card {
+  background-color: #fff;
+  border-radius: $border-radius-md;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  max-width: 250px;
+
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: $text-color;
+  }
+}

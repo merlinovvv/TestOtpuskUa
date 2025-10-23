@@ -1,0 +1,10 @@
+@use 'variables' as *;
+
+* {
+  font-family: "Rubik", sans-serif;
+}
+
+body {
+  background-color: $background;
+  color: $text-color;
+}
