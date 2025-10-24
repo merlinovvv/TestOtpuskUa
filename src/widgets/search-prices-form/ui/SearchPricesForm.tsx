@@ -13,7 +13,6 @@ export const SearchPricesForm = () => {
     const countryId = dropdownOptions.find(
       (o) => o.id === values.search
     )?.countryId;
-    console.log("Search submitted:", countryId);
     searchPrices(countryId);
   }
 

@@ -1,5 +1,12 @@
-.prices_list{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.prices {
+  max-width: 700px;
+  width: 100%;
+  padding: 25px;
+  margin: 0 auto;
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
 }

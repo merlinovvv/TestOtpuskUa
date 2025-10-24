@@ -15,7 +15,7 @@ export const Card: FC<CardProps> = ({
 }) => {
   return (
     <div className={clsx(styles.card, className)} {...props}>
-      <h2 className={styles.card__title}>{title}</h2>
+      {!!title && <h2 className={styles.card__title}>{title}</h2>}
       {children}
     </div>
   );

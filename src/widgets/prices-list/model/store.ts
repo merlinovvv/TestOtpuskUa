@@ -1,15 +1,17 @@
-import { startSearchPrices } from "@/shared/api/api";
+import { getHotels, startSearchPrices } from "@/shared/api/api";
 import type {
   ErrorResponse,
-  PriceOffer,
+  HotelsMap,
+  PriceTour,
   StartSearchResponse,
 } from "@/shared/types";
 import { create } from "zustand";
 import { createPricesList, getPricesWithRetry } from "./functions";
 
 interface SearchPricesProps {
-  prices: PriceOffer[];
-  pricesCountries: { [countryId: string]: PriceOffer[] };
+  prices: PriceTour[];
+  isEmptyPrices: boolean;
+  hotelsCountries: { [countryId: string]: HotelsMap };
   loading: boolean;
   error: ErrorResponse["message"] | null;
   searchPrices: (countryId: string) => Promise<void>;
@@ -17,19 +19,12 @@ interface SearchPricesProps {
 
 export const useSearchPricesStore = create<SearchPricesProps>((set, get) => ({
   prices: [],
-  pricesCountries: {},
+  isEmptyPrices: false,
+  hotelsCountries: {},
   loading: false,
   error: null,
   searchPrices: async (countryId) => {
-    set({ loading: true, error: null });
-
-    if (
-      !!get().pricesCountries[countryId] &&
-      get().pricesCountries[countryId].length > 0
-    ) {
-      set({ loading: false, prices: get().pricesCountries[countryId] });
-      return;
-    }
+    set({ loading: true, error: null, isEmptyPrices: false });
 
     const start: StartSearchResponse & ErrorResponse = await startSearchPrices(
       countryId
@@ -51,16 +46,30 @@ export const useSearchPricesStore = create<SearchPricesProps>((set, get) => ({
       return;
     }
 
-    const presentPrices = createPricesList({ prices: resp.prices });
+    let hotelsList = {};
 
-    set(({ pricesCountries }) => ({
-      pricesCountries: {
-        ...pricesCountries,
-        [countryId]: presentPrices,
-      },
+    if (!!get().hotelsCountries[countryId]) {
+      hotelsList = get().hotelsCountries[countryId];
+    } else {
+      hotelsList = await getHotels(countryId).then((d) => d.json());
+      set(({ hotelsCountries }) => ({
+        hotelsCountries: {
+          ...hotelsCountries,
+          [countryId]: hotelsList,
+        },
+      }));
+    }
+
+    const presentPrices = createPricesList({
+      prices: resp.prices,
+      hotels: hotelsList,
+    });
+
+    set({
       prices: presentPrices,
+      isEmptyPrices: presentPrices.length === 0,
       loading: false,
-    }));
+    });
     return;
   },
 }));

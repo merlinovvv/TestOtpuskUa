@@ -25,6 +25,16 @@ export type PriceOffer = {
   hotelID?: string; // додається в результатах пошуку цін
 };
 
+export type PriceTour = {
+  img: Hotel['img'];
+  name: Hotel['name'];
+  location: string;
+  amount: string;
+  startDate: string;
+  hotelId: PriceOffer["hotelID"];
+  priceId: PriceOffer["id"];
+};
+
 // Відповідь пошуку цін (готові результати)
 export type PricesMap = Record<string, PriceOffer>;
 

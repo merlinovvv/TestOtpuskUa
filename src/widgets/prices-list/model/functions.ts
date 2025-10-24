@@ -2,9 +2,12 @@ import { getSearchPrices } from "@/shared/api/api";
 import type {
   ErrorResponse,
   GetSearchPricesResponse,
+  Hotel,
+  HotelsMap,
+  PriceOffer,
   StartSearchResponse,
 } from "@/shared/types";
-import { sleep } from "@/shared/utils/utils";
+import { formatDate, formatPrice, sleep } from "@/shared/utils/utils";
 
 export const getPricesWithRetry = async ({
   token,
@@ -34,8 +37,33 @@ export const getPricesWithRetry = async ({
 
 export const createPricesList = ({
   prices,
+  hotels,
 }: {
   prices: GetSearchPricesResponse["prices"];
+  hotels: HotelsMap;
 }) => {
-  return Object.values(prices);
+  const newPrices = Object.values(prices).map((priceItem) => {
+    let newItem: PriceOffer & Partial<Omit<Hotel, "id">> = priceItem;
+
+    if (priceItem.hotelID) {
+      newItem = {
+        ...priceItem,
+        ...hotels[priceItem.hotelID],
+        id: priceItem.id,
+      };
+    }
+
+    const price = {
+      img: newItem.img!,
+      name: newItem.name!,
+      location: `${newItem.countryName}, ${newItem.cityName}`,
+      startDate: formatDate(newItem.startDate),
+      amount: formatPrice(newItem.amount, newItem.currency),
+      priceId: newItem.id,
+      hotelId: newItem.hotelID!,
+    };
+
+    return price;
+  });
+  return newPrices;
 };
