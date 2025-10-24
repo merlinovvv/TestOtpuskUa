@@ -1,0 +1,18 @@
+@use "@/styles/variables" as *;
+
+.price {
+  max-width: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__title{
+    font-size: 20px;
+  }
+  
+  &__link{
+    text-decoration: none;
+    color: $primary;
+    font-weight: 500;
+  }
+}

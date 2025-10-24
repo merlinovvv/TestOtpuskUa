@@ -22,7 +22,7 @@ export const PricesList = () => {
     <div className={styles.prices}>
       <div className={styles.prices__list}>
         {prices.map((price) => (
-          <PriceTourItem {...price} />
+          <PriceTourItem key={price.priceId} {...price} />
         ))}
       </div>
     </div>

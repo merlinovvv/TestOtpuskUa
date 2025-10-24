@@ -1,0 +1,49 @@
+@use "@/styles/variables" as *;
+
+.tour_card {
+  max-width: 300px;
+  width: 100%;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .desc,
+  .services {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    &__title {
+      font-weight: 600;
+    }
+
+    // desc
+    &__text {
+      color: $muted-text-color;
+      line-height: 1.2em;
+    }
+
+    // services
+    &__list {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    &__item {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    width: 100%;
+    background-color: #dadada;
+  }
+}

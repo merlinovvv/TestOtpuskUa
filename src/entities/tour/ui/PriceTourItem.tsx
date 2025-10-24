@@ -1,24 +1,21 @@
 import type { PriceTour } from "@/shared/types";
 import { Card } from "@/shared/ui";
 import type { FC } from "react";
-import styles from "./PriceTourItem.module.scss";
-import { Globe } from "lucide-react";
 import { Link } from "react-router-dom";
+import styles from "../styles/PriceTourItem.module.scss";
+import { TourImage } from "./TourImage";
+import { TourLocation } from "./TourLocation";
+import { TourPrice } from "./TourPrice";
+import { TourStartDate } from "./TourStartDate";
 
 export const PriceTourItem: FC<PriceTour> = (price) => {
   return (
     <Card className={styles.price}>
-      <img className={styles.price__image} src={price.img} alt={price.name} />
+      <TourImage src={price.img} alt={price.name} />
       <h3 className={styles.price__title}>{price.name}</h3>
-      <div className={styles.price__location}>
-        <Globe />
-        <div>{price.location}</div>
-      </div>
-      <div className={styles.price__start_date}>
-        <p>Початок туру</p>
-        <p>{price.startDate}</p>
-      </div>
-      <div className={styles.price__price}>{price.amount}</div>
+      <TourLocation location={price.location} />
+      <TourStartDate startDate={price.startDate} />
+      <TourPrice amount={price.amount} />
       <Link
         to={`/tour/${price.priceId}/${price.hotelId}`}
         className={styles.price__link}

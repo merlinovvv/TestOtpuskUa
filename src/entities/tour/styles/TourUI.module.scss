@@ -1,0 +1,27 @@
+@use "@/styles/variables" as *;
+
+.tour_location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tour_image {
+  max-width: 100%;
+  border-radius: $border-radius-md;
+  object-fit: cover;
+  object-position: center;
+  height: 150px;
+  width: 100%;
+}
+
+.tour_start_date {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tour_price {
+  font-size: 20px;
+  font-weight: 600;
+}

@@ -1,4 +1,5 @@
 // Базові сутності
+type Service = "wifi" | "aquapark" | "tennis_court" | "laundry" | "parking";
 export type Country = { id: string; name: string; flag: string };
 export type City = { id: number; name: string };
 export type Hotel = {
@@ -9,6 +10,8 @@ export type Hotel = {
   cityName: string;
   countryId: string;
   countryName: string;
+  description?: string;
+  services?: Record<Service, "yes" | "none">;
 };
 
 // Колекції у вигляді словників
@@ -26,13 +29,18 @@ export type PriceOffer = {
 };
 
 export type PriceTour = {
-  img: Hotel['img'];
-  name: Hotel['name'];
+  img: Hotel["img"];
+  name: Hotel["name"];
   location: string;
   amount: string;
   startDate: string;
   hotelId: PriceOffer["hotelID"];
   priceId: PriceOffer["id"];
+};
+
+export type Tour = PriceTour & {
+  description: Hotel["description"];
+  services: Hotel["services"];
 };
 
 // Відповідь пошуку цін (готові результати)
