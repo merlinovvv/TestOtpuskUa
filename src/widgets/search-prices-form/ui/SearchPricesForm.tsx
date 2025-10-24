@@ -1,13 +1,13 @@
 import { Button, Card, Dropdown } from "@/shared/ui";
+import { useSearchPricesStore } from "@/widgets/prices-list";
 import { Form, Formik, type FormikValues } from "formik";
 import { useDropdownOptionsStore } from "../model/store";
 import styles from "./SearchPricesForm.module.scss";
-import { useSearchPricesStore } from "@/widgets/prices-list";
 
 export const SearchPricesForm = () => {
   const { dropdownOptions, fetchDropdownOptions, loading } =
     useDropdownOptionsStore();
-  const { searchPrices } = useSearchPricesStore();
+  const { searchPrices, restart } = useSearchPricesStore();
 
   function submit(values: FormikValues) {
     const countryId = dropdownOptions.find(
@@ -45,7 +45,9 @@ export const SearchPricesForm = () => {
               onSearch={(value) => fetchDropdownOptions(value)}
               onOpenChange={(open) => handleOpenChange(open, values.search)}
             />
-            <Button type="submit">Знайти</Button>
+            <Button disabled={restart} type="submit">
+              Знайти
+            </Button>
           </Form>
         )}
       </Formik>
