@@ -25,11 +25,16 @@ export const createDropdownOptions = ({
     hotel: () => <Bed style={{ flex: "none" }} size={16} />,
   };
 
-  return arr.map((item: any) => ({
+  const sorted = arr.map((item: any) => ({
     ...item,
+    countryId: !!item.countryId
+      ? item.countryId
+      : (item.type === "country" || !item.type) && item.id,
     icon:
       item.type && icon[item.type as keyof typeof icon]
         ? icon[item.type as keyof typeof icon](item)
         : icon.country(item as Country),
   }));
+
+  return sorted;
 };

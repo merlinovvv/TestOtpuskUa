@@ -1,21 +1,20 @@
 import { create } from "zustand";
-//ts-ignore
-import { getCountries, searchGeo } from "@/shared/api/api"; 
+import { getCountries, searchGeo } from "@/shared/api/api";
 import type { CountriesMap, GeoResponse } from "@/shared/types";
 import { createDropdownOptions } from "./functions";
 
-interface SearchToursStore {
+interface DropdownOptionsStore {
   loading: boolean;
   error: string | null;
-  searchToursDropdownOptions: any[];
-  fetchSearchToursOptions: (query?: string) => Promise<void>;
+  dropdownOptions: any[];
+  fetchDropdownOptions: (query?: string) => Promise<void>;
 }
 
-export const useSearchToursStore = create<SearchToursStore>((set) => ({
+export const useDropdownOptionsStore = create<DropdownOptionsStore>((set) => ({
   loading: false,
   error: null,
-  searchToursDropdownOptions: [],
-  fetchSearchToursOptions: async (query) => {
+  dropdownOptions: [],
+  fetchDropdownOptions: async (query) => {
     set({ loading: true });
     try {
       if (!query) {
@@ -23,7 +22,7 @@ export const useSearchToursStore = create<SearchToursStore>((set) => ({
           (data: Response) => data.json()
         );
         set({
-          searchToursDropdownOptions: createDropdownOptions({
+          dropdownOptions: createDropdownOptions({
             countriesMap: countries,
           }),
         });
@@ -33,7 +32,7 @@ export const useSearchToursStore = create<SearchToursStore>((set) => ({
         );
 
         set({
-          searchToursDropdownOptions: createDropdownOptions({
+          dropdownOptions: createDropdownOptions({
             geoMap: results,
           }),
         });

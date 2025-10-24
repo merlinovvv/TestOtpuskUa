@@ -1,21 +1,27 @@
 import { Button, Card, Dropdown } from "@/shared/ui";
 import { Form, Formik, type FormikValues } from "formik";
-import { useSearchToursStore } from "../model/store";
-import styles from "./SearchToursForm.module.scss";
+import { useDropdownOptionsStore } from "../model/store";
+import styles from "./SearchPricesForm.module.scss";
+import { useSearchPricesStore } from "@/widgets/prices-list";
 
-export const SearchToursForm = () => {
-  const { searchToursDropdownOptions, fetchSearchToursOptions, loading } =
-    useSearchToursStore();
+export const SearchPricesForm = () => {
+  const { dropdownOptions, fetchDropdownOptions, loading } =
+    useDropdownOptionsStore();
+  const { searchPrices } = useSearchPricesStore();
 
   function submit(values: FormikValues) {
-    console.log("Search submitted:", values.search);
+    const countryId = dropdownOptions.find(
+      (o) => o.id === values.search
+    )?.countryId;
+    console.log("Search submitted:", countryId);
+    searchPrices(countryId);
   }
 
   function handleOpenChange(open: boolean, value: string) {
     if (!open) return;
-    const selected = searchToursDropdownOptions.find((o) => o.id === value);
+    const selected = dropdownOptions.find((o) => o.id === value);
     if (!selected || selected.type === "country" || selected.flag) {
-      fetchSearchToursOptions();
+      fetchDropdownOptions();
     }
   }
 
@@ -33,11 +39,11 @@ export const SearchToursForm = () => {
               value={values.search}
               onChange={(value) => setFieldValue("search", value)}
               placeholder="Search..."
-              options={searchToursDropdownOptions}
+              options={dropdownOptions}
               optionLabel="name"
               optionValue="id"
               optionIcon="icon"
-              onSearch={(value) => fetchSearchToursOptions(value)}
+              onSearch={(value) => fetchDropdownOptions(value)}
               onOpenChange={(open) => handleOpenChange(open, values.search)}
             />
             <Button type="submit">Знайти</Button>

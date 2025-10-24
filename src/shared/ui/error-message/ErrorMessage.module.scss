@@ -1,0 +1,6 @@
+@use "@/styles/variables" as *;
+
+.error_message {
+  color: $error-color;
+  font-weight: 600;
+}
